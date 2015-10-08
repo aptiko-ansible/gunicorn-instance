@@ -1,0 +1,51 @@
+---
+- name: Create group {{ user }}
+  group: name={{ user }} system=yes
+
+- name: Create user {{ user }}
+  user:
+    name: "{{ user }}"
+    group: "{{ user }}"
+    system: yes
+
+- name: Create {{ instance_name }} configuration directory
+  file: name={{ config_dir }} state=directory
+
+- name: Create {{ instance_name }} log directory
+  file:
+    name: "{{ log_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+
+- name: Create gunicorn {{ instance_name }} log file
+  command: >
+    touch {{ log_dir }}/{{ instance_name }}.log
+    creates={{ log_dir }}/{{ instance_name }}.log
+
+- name: Ensure {{ log_dir }}/{{ instance_name }}.log has correct permissions
+  file:
+    name: "{{ log_dir }}/{{ instance_name }}.log"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+
+- name: Install gunicorn
+  pip:
+    name: gunicorn
+    virtualenv: "{{ virtualenv }}"
+    virtualenv_site_packages: yes
+
+- name: Configure gunicorn
+  template:
+    src: run-gunicorn
+    dest: "{{ config_dir }}/run-gunicorn"
+    mode: 0755
+  notify:
+  - Restart {{ instance_name }}
+
+- name: Configure supervisor
+  template:
+    src: supervisor.conf
+    dest: /etc/supervisor/conf.d/{{ program_name }}-{{ instance_name }}.conf
+  notify:
+  - Restart {{ instance_name }}

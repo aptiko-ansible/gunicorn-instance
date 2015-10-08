@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+LOGDIR={{ log_dir }}
+LOGFILE=$LOGDIR/{{ instance_name }}.log
+NUM_WORKERS={{ ansible_processor_cores }}
+USER={{ user }}
+GROUP={{ user }}
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export PYTHONPATH=$SCRIPT_DIR:{{ program_dir }}
+export DJANGO_SETTINGS_MODULE=settings
+source {{ virtualenv }}/bin/activate
+cd {{ program_dir }}
+exec gunicorn {{ program_name }}.wsgi:application --worker-class=gevent \
+    --workers=$NUM_WORKERS --user=$USER --group=$GROUP --log-level=warning \
+    --log-file=$LOGFILE --bind 127.0.0.1:{{ port }} --timeout=60 2>>$LOGFILE

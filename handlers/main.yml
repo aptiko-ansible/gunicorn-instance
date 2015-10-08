@@ -1,0 +1,5 @@
+---
+- name: Restart {{ instance_name }}
+  supervisorctl:
+    name: "{{ instance_name }}"
+    state: restarted
