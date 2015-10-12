@@ -43,6 +43,8 @@ Variables
   installs the application's stuff in there.
 - ``port``: The gunicorn server for that instance will be listening to
   this port.
+- ``wsgi_location``: The Python module in which ``wsgi.py`` is in. By
+  default, this is ``program_name``.
 
 Meta
 ====
