@@ -2,6 +2,24 @@
 - name: Create group {{ user }}
   group: name={{ user }} system=yes
 
+
+# Workaround for https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=766867
+
+- name: Install python-dev (for compiling gevent)
+  apt: name=python-dev
+  when: ansible_distribution_release == 'jessie'
+
+- name: Install gevent from source
+  pip:
+    name: gevent
+    version: '1.0.2'
+    virtualenv: "{{ virtualenv }}"
+    virtualenv_site_packages: yes
+  when: ansible_distribution_release == 'jessie'
+
+# End workaround
+
+
 - name: Create user {{ user }}
   user:
     name: "{{ user }}"
