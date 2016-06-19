@@ -18,6 +18,7 @@ Use like this::
       log_dir: /var/log/foo
       virtualenv: /usr/local/foo-virtualenv
       port: 8002
+      python: python3
 
 Variables
 =========
@@ -43,6 +44,9 @@ Variables
   installs the application's stuff in there.
 - ``port``: The gunicorn server for that instance will be listening to
   this port.
+- ``python``: The default is "python", for python 2. You can specify
+  "python3" instead (the apparent inconsistency is because of Debian,
+  where packages are named, e.g., ``python-dev`` and ``python3-dev``).
 - ``wsgi_location``: The Python module in which ``wsgi.py`` is in. By
   default, this is ``program_name``.
 
