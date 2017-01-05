@@ -2,6 +2,11 @@
 - name: Create group {{ user }}
   group: name={{ user }} system=yes
 
+- name: Install virtualenv (Python 2)
+  apt: name=python-virtualenv
+
+- name: Install virtualenv (Python 3)
+  apt: name=python3-virtualenv
 
 # Workaround for https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=766867
 
