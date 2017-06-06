@@ -17,7 +17,7 @@ Use like this::
       user: foo
       log_dir: /var/log/foo
       virtualenv: /usr/local/foo-virtualenv
-      port: 8002
+      gunicorn_port: 8002
       python: python3
 
 Variables
@@ -42,7 +42,7 @@ Variables
 - ``virtualenv``: The python virtualenv directory in which gunicorn will
   be installed and from where it will be run. Usually another role also
   installs the application's stuff in there.
-- ``port``: The gunicorn server for that instance will be listening to
+- ``gunicorn_port``: The gunicorn server for that instance will be listening to
   this port.
 - ``python``: The default is "python", for python 2. You can specify
   "python3" instead (the apparent inconsistency is because of Debian,

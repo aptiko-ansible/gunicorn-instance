@@ -10,6 +10,6 @@ export PYTHONPATH=$SCRIPT_DIR:{{ program_dir }}
 export DJANGO_SETTINGS_MODULE=settings
 source {{ virtualenv }}/bin/activate
 cd {{ program_dir }}
-exec gunicorn {{ wsgi_location|default(program_name) }}.wsgi:application --worker-class=gevent \
+exec gunicorn {{ wsgi_location|default(program_name) }}.wsgi:application \
     --workers=$NUM_WORKERS --user=$USER --group=$GROUP --log-level=warning \
-    --log-file=$LOGFILE --bind 127.0.0.1:{{ port }} --timeout=60 2>>$LOGFILE
+    --log-file=$LOGFILE --bind 127.0.0.1:{{ gunicorn_port }} --timeout=90 2>>$LOGFILE
