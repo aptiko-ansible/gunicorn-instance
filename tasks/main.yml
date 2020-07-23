@@ -8,6 +8,9 @@
 - name: Install virtualenv (Python 3)
   apt: name=python3-virtualenv
 
+- name: Install virtualenv
+  apt: name=virtualenv
+
 # Workaround for https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=766867
 
 - name: Install python-dev (for compiling gevent)
